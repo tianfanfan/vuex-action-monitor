@@ -1,0 +1,17 @@
+{
+  "name": "vuex-action-monitor",
+  "version": "1.0.0",
+  "description": "vuex action monitor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vuex",
+    "loading",
+    "action",
+    "monitor"
+  ],
+  "author": "tianfanfan",
+  "license": "MIT"
+}
