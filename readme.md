@@ -37,7 +37,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   plugins: [
-    actionSubscribe({
+    actionMonitor({
       log: true,
       key: 'loading',
     }),
@@ -63,7 +63,7 @@ export default store
 ```html
 <template>
   <div class="goodsPage">
-    {{ $store.state.loading.b }} {{ $loadingB('foo') }} {{ $loadingC('foo') }}
+    {{ $store.state.loading.b }} {{ $loadingB('foobar') }} {{ $loadingC('foobar') }}
   </div>
 </template>
 <script>
@@ -71,6 +71,26 @@ export default store
     data() {
       return {}
     },
+    computed() {
+      // you can use methods
+      foobarLoadingCount() {
+        return this.$loadingC("foobar");
+      },
+      // you can use methods
+      loadingCBoolean() {
+        return this.$loadingB("foobar");
+      },
+      // 你也可以通过此方式拿到真实数据
+      // you can use state
+      foobarLoadingCount2() {
+        return this.$store.state._loading.b.foobar
+      }
+      // 你也可以通过 getter 计算
+      // you can use getter
+      foobarLoadingCount3() {
+        return this.$store.getters.['_loading/stateC']('foobar')
+      }
+    }
   }
 </script>
 <style scoped></style>
