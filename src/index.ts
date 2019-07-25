@@ -37,7 +37,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
   const needLog = opt.log ? true : false
 
   let closerStore = {}
-  const moduleResult = function (store) {
+  const moduleResult = function (store: any) {
     // const storeActionKeys = Object.keys(store._actions)
     // console.log(storeActionKeys);
     closerStore = store
@@ -51,7 +51,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
         c: {}
       },
       mutations: {
-        onActionDispatch(state, { actionType, value }) {
+        onActionDispatch(state: any, { actionType, value }: { actionType: string, value: boolean }) {
           function changeLoadingState(st: typeof state, { targetCount, actionType }: { targetCount: number, actionType: string }) {
 
             let currentCount = targetCount >= 0 ? targetCount : 0;
@@ -86,13 +86,13 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
       },
       getters: {
         // boolean 形式
-        stateB(state) {
+        stateB(state: any) {
           return (path: string) => {
             return (state.b as any)[path] || false
           }
         },
         // count 形式
-        stateC(state) {
+        stateC(state: any) {
           return (path: string) => {
             return (state.c as any)[path] || 0
           }
@@ -104,7 +104,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
      * 订阅 action
      */
     store.subscribeAction({
-      before: (action, state) => {
+      before: (action: any, state: any) => {
         store.commit(`${_lowSubKey}/onActionDispatch`, {
           actionType: action.type,
           value: true
@@ -113,7 +113,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
           consoleLog('start', `before action:  ${action.type}`)
         }
       },
-      after: (action, state) => {
+      after: (action: any, state: any) => {
         store.commit(`${_lowSubKey}/onActionDispatch`, {
           actionType: action.type,
           value: false
