@@ -1,6 +1,6 @@
 {
   "name": "vuex-action-monitor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "https://github.com/tianfanfan",
   "repository": {
     "type": "git",
@@ -15,14 +15,10 @@
     "mi": "npm version minor",
     "ma": "npm version major",
     "start": "tsc -w",
+    "publish-first": "npm publish --access=public",
     "build": "tsc",
-    "publish-p": "npm run patch && npm run build && npm publish --access=public"
+    "publish-p": "npm run patch && npm run build && npm publish"
   },
-  "files": [
-    "./dist/index.js",
-    "./dist/index.d.ts",
-    "./README.md"
-  ],
   "keywords": [
     "vuex",
     "loading",
