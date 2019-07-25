@@ -1,6 +1,11 @@
 {
   "name": "vuex-action-monitor",
   "version": "1.0.0",
+  "author": "https://github.com/tianfanfan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tianfanfan/vuex-action-monitor.git"
+  },
   "description": "vuex action monitor",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -24,7 +29,6 @@
     "action",
     "monitor"
   ],
-  "author": "tianfanfan",
   "license": "MIT",
   "devDependencies": {
     "tslint": "^5.18.0",
