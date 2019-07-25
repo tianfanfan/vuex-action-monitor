@@ -81,10 +81,6 @@ export default store
 - `log`(required: `false`, default: `false`): need console log the state or not.
 - `key` (required: `false`, default: `loading`): the key of this module in vuex store.
 
-### Important notes
-
-- ⚠️ You need use `vue router` , set `name` for route option which is using this component. (this component read the name using `this.$route.name`).
-
 ### License
 
 [MIT](./LICENSE)
