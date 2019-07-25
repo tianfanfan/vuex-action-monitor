@@ -85,4 +85,4 @@ export default store
 
 [MIT](./LICENSE)
 
-[⬆ Back to Top](#table-of-contents)
+[⬆ Back to Top](#vuex-action-monitor)
