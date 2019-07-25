@@ -16,7 +16,7 @@
     "ma": "npm version major",
     "start": "tsc -w",
     "build": "tsc",
-    "publish": "npm run build && npm publish --access=public"
+    "publish-p": "npm run patch && npm run build && npm publish --access=public"
   },
   "files": [
     "./dist/index.js",
