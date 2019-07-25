@@ -10,6 +10,11 @@
     "build": "rm -fr ./dist && tsc -p tsconfig.prod.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": [
+    "./dist/index.js",
+    "./dist/index.d.ts",
+    "./README.md"
+  ],
   "keywords": [
     "vuex",
     "loading",
