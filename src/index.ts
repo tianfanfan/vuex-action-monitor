@@ -1,5 +1,5 @@
 
-import { Payload, Plugin } from "vuex/types/index";
+import { Payload, Plugin } from "vuex/types";
 import Vue from 'vue'
 
 declare module 'vue/types/vue' {
