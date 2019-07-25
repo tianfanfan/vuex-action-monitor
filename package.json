@@ -17,7 +17,8 @@
     "start": "tsc -w",
     "publish-first": "npm publish --access=public",
     "build": "tsc",
-    "publish-p": "npm run patch && npm run build && npm publish"
+    "publish-p": "npm run patch && npm run build",
+    "publish-d": "npm publish"
   },
   "keywords": [
     "vuex",
