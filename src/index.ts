@@ -140,7 +140,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
       }
     })
   }
-  moduleResult.install = function (Vue) {
+  moduleResult.install = function (Vue: any) {
     Object.defineProperty(Vue.prototype, `$loadingB`, {
       value: function (path: string): boolean {
         return (closerStore as any).getters[`${_lowSubKey}/stateB`](path)
