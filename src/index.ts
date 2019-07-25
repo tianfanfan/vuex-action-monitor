@@ -36,9 +36,12 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
   const _lowSubKey = '_' + _subKey
   const needLog = opt.log ? true : false
 
-  return function (store) {
+  let closerStore = {}
+  const moduleResult = function (store) {
     // const storeActionKeys = Object.keys(store._actions)
     // console.log(storeActionKeys);
+    closerStore = store
+
     store.registerModule([_lowSubKey], {
       namespaced: true,
       state: {
@@ -129,6 +132,20 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
       }
     })
   }
+  moduleResult.install = function (Vue) {
+    Object.defineProperty(Vue.prototype, `$loadingB`, {
+      value: function (path: string): boolean {
+        return (closerStore as any).getters[`${_lowSubKey}/stateB`](path)
+      }
+    })
+
+    Object.defineProperty(Vue.prototype, `$loadingC`, {
+      value: function (path: string): number {
+        return (closerStore as any).getters[`${_lowSubKey}/stateC`](path)
+      }
+    })
+  }
+  return moduleResult
 }
 
 export default actionSubscribe
