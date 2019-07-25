@@ -5,8 +5,13 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
+    "v": "npm version v0.1.0",
+    "patch": "npm version patch",
+    "mi": "npm version minor",
+    "ma": "npm version major",
     "start": "tsc -w",
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "npm run build && npm publish --access=public"
   },
   "files": [
     "./dist/index.js",
