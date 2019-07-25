@@ -62,8 +62,16 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
            * 初始化 action 的计数和状态
            */
           if (!state.b.hasOwnProperty(actionType)) {
-            Vue.set(state.b, actionType, false)
-            Vue.set(state.c, actionType, 0)
+            state.b = {
+              ...state.b,
+              [actionType]: false
+            }
+            state.c = {
+              ...state.c,
+              [actionType]: 0
+            }
+            // Vue.set(state.b, actionType, false)
+            // Vue.set(state.c, actionType, 0)
           }
 
           let beforeCount = (<any>state.c)[actionType] || 0;
