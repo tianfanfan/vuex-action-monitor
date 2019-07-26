@@ -1,14 +1,5 @@
 
 import { Payload, Plugin } from "vuex/types";
-import Vue from 'vue'
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    $loadingB: (path: string | string[]) => boolean,
-    $loadingC: (path: string) => number
-  }
-}
-
 interface actionSubOption<S> {
   log?: boolean;
   key?: string;
@@ -87,8 +78,13 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
       getters: {
         // boolean 形式
         stateB(state: any) {
-          return (path: string) => {
-            return (state.b as any)[path] || false
+          return (path: string | string[]) => {
+            if (typeof path === 'string') {
+              return (state.b as any)[path] || false
+            }
+            if (Array.isArray(path)) {
+              return (state.b as any)[path[0]] || false
+            }
           }
         },
         // count 形式
@@ -124,21 +120,6 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
       }
     })
 
-    /**
-     * 定义插件的 Key 到 store 实例上
-     */
-
-    Object.defineProperty(Vue.prototype, `$loadingB`, {
-      value: function (path: string): boolean {
-        return store.getters[`${_lowSubKey}/stateB`](path)
-      }
-    })
-
-    Object.defineProperty(Vue.prototype, `$loadingC`, {
-      value: function (path: string): number {
-        return store.getters[`${_lowSubKey}/stateC`](path)
-      }
-    })
   }
   moduleResult.install = function (Vue: any) {
     Object.defineProperty(Vue.prototype, `$loadingB`, {
