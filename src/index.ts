@@ -82,15 +82,40 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
             if (typeof path === 'string') {
               return (state.b as any)[path] || false
             }
+
             if (Array.isArray(path)) {
+              /**
+               * 数组有一个是 true ,就为 true
+               */
+              path.some((key: string | string[]) => {
+                if (typeof key === 'string') {
+                  return state.b[key] || false
+                }
+                if (Array.isArray(key)) {
+                  return key.every((k) => {
+                    return state.b[k] || false
+                  }) || false
+                }
+
+              })
               return (state.b as any)[path[0]] || false
             }
+
+            throw new Error('path must be a string or an array of string')
           }
         },
         // count 形式
         stateC(state: any) {
-          return (path: string) => {
-            return (state.c as any)[path] || 0
+          return (path: string | string[]) => {
+            if (typeof path === 'string') {
+              return (state.c as any)[path] || 0
+            }
+
+            if (Array.isArray(path)) {
+              return path.map(key => {
+                return state.c[key]
+              }).reduce((a, b) => a + b, 0)
+            }
           }
         }
       }
