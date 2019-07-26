@@ -1,9 +1,9 @@
 # vuex-action-monitor
 
 [![Build Status](https://travis-ci.com/tianfanfan/vuex-action-monitor.svg?branch=master)](https://travis-ci.com/tianfanfan/vuex-action-monitor)
-[![NPM Download](https://img.shields.io/npm/dm/@tianfanfan/vuex-action-monitor.svg)](https://www.npmjs.com/package/@tianfanfan/vuex-action-monitor)
-[![NPM Version](https://img.shields.io/npm/v/@tianfanfan/vuex-action-monitor.svg)](https://www.npmjs.com/package/@tianfanfan/vuex-action-monitor)
-[![NPM License](https://img.shields.io/npm/l/@tianfanfan/vuex-action-monitor.svg)](https://github.com/tianfanfan/vuex-action-monitor/blob/master/LICENSE)
+[![NPM Download](https://img.shields.io/npm/dm/vuex-action-monitor.svg)](https://www.npmjs.com/package/vuex-action-monitor)
+[![NPM Version](https://img.shields.io/npm/v/vuex-action-monitor.svg)](https://www.npmjs.com/package/vuex-action-monitor)
+[![NPM License](https://img.shields.io/npm/l/vuex-action-monitor.svg)](https://github.com/tianfanfan/vuex-action-monitor/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tianfanfan/vuex-action-monitor/pulls)
 [![Automated Release Notes by gren](https://img.shields.io/badge/%F0%9F%A4%96-release%20notes-00B2EE.svg)](https://github-tools.github.io/github-release-notes/)
 
@@ -31,17 +31,17 @@ Install the components in global:
 // store.js or store.ts
 import Vue from 'vue'
 import Vuex from 'vuex'
-import actionMonitor from 'vuex-action-monitor'
+import actionMonit from 'vuex-action-monitor'
 
+const actionMonitor = actionMonit({
+  log: true,
+  key: 'loading',
+})
 Vue.use(Vuex)
 
+Vue.use(actionMonitor)
 const store = new Vuex.Store({
-  plugins: [
-    actionMonitor({
-      log: true,
-      key: 'loading',
-    }),
-  ],
+  plugins: [actionMonitor],
   state: {},
   mutations: {},
   actions: {
