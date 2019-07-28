@@ -1,5 +1,4 @@
 
-import { Payload, Plugin } from "vuex/types";
 interface actionSubOption<S> {
   log?: boolean;
   key?: string;
@@ -20,7 +19,7 @@ function consoleLog(tag: 'success' | 'start', ...content: any[]) {
   console.log("%c" + tag, style, ...content)
 }
 
-function actionSubscribe<S>(opt: actionSubOption<S> = {}): Plugin<S> {
+function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
   // sub key
   const _subKey = opt.key ? opt.key : 'loading'
   // 加了下划线在顶部的 sub key
