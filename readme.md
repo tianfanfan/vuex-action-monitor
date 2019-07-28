@@ -13,19 +13,19 @@
 - [Install](#Install)
 - [License](#license)
 
-### Feature
+### Introduction
 
 vuex-action-monitor is a library that monitor all vuex actions start and end.
 
 ### Install
 
 ```sh
-npm install -S vuex-action-monitor
+  npm install -S vuex-action-monitor
 ```
 
-### Default Import
+### Use in store
 
-Install the components in global:
+Install and use in store.js:
 
 ```javascript
 // store.js or store.ts
@@ -65,7 +65,7 @@ const store = new Vuex.Store({
 export default store
 ```
 
-### Example
+### Use in Component
 
 ```html
 <template>
@@ -116,12 +116,12 @@ export default store
 <style scoped></style>
 ```
 
-### Props
+### Options
 
 - `log`(required: `false`, default: `false`): need console log the state or not.
 - `key` (required: `false`, default: `loading`): the key of this module in vuex store.
 
-### Getter
+### Feature
 
 Then you will have two getters function in any vue components
 
@@ -132,4 +132,4 @@ Then you will have two getters function in any vue components
 
 [MIT](./LICENSE)
 
-[⬆ Back to Top](#vuex-action-monitor)
+[⬆ Back to Top](#user-content-table-of-contents)
