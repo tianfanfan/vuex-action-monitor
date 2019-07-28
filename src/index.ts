@@ -112,7 +112,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
 
             if (Array.isArray(path)) {
               return path.map(key => {
-                return state.c[key]
+                return state.c[key] || 0
               }).reduce((a, b) => a + b, 0)
             }
           }
