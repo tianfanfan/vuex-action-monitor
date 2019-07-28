@@ -86,7 +86,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
               /**
                * 数组有一个是 true ,就为 true
                */
-              path.some((key: string | string[]) => {
+              return path.some((key: string | string[]) => {
                 if (typeof key === 'string') {
                   return state.b[key] || false
                 }
@@ -97,7 +97,6 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
                 }
 
               })
-              return (state.b as any)[path[0]] || false
             }
 
             throw new Error('path must be a string or an array of string')

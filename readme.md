@@ -15,7 +15,7 @@
 
 ### Feature
 
-vuex-action-monitor 是一个监听 vuex 所有的 action 开始结束的库
+vuex-action-monitor is a library that monitor all vuex actions start and end.
 
 ### Install
 
