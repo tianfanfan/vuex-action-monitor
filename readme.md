@@ -45,7 +45,14 @@ const store = new Vuex.Store({
   state: {},
   mutations: {},
   actions: {
-    async foobar(context, payload) {
+    async foo(context, payload) {
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve()
+        }, 3000)
+      })
+    },
+    async bar(context, payload) {
       await new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve()
@@ -63,7 +70,20 @@ export default store
 ```html
 <template>
   <div class="goodsPage">
-    {{ $store.state.loading.b }} {{ $loadingB('foobar') }} {{ $loadingC('foobar') }}
+    <span>
+      {{ $loadingC(['foo', 'bar']) }}
+    </span>
+
+    <span>
+      {{ $loadingB(['foo', 'bar']) }}
+    </span>
+
+
+    <span>
+      {{ $loadingB([['foo', 'bar']]) }}
+    </span>
+
+    {{ $store.state.loading.b }} {{ $loadingB('foo') }} {{ $loadingC('foo') }}
   </div>
 </template>
 <script>
@@ -73,22 +93,22 @@ export default store
     },
     computed() {
       // you can use methods
-      foobarLoadingCount() {
-        return this.$loadingC("foobar");
+      fooLoadingCount() {
+        return this.$loadingC("foo");
       },
       // you can use methods
       loadingCBoolean() {
-        return this.$loadingB("foobar");
+        return this.$loadingB("foo");
       },
       // 你也可以通过此方式拿到真实数据
       // you can use state
-      foobarLoadingCount2() {
-        return this.$store.state._loading.b.foobar
+      fooLoadingCount2() {
+        return this.$store.state._loading.b.foo
       }
       // 你也可以通过 getter 计算
       // you can use getter
-      foobarLoadingCount3() {
-        return this.$store.getters.['_loading/stateC']('foobar')
+      fooLoadingCount3() {
+        return this.$store.getters.['_loading/stateC']('foo')
       }
     }
   }
@@ -100,6 +120,13 @@ export default store
 
 - `log`(required: `false`, default: `false`): need console log the state or not.
 - `key` (required: `false`, default: `loading`): the key of this module in vuex store.
+
+### Getter
+
+Then you will have two getters function in any vue components
+
+- `$loadingC`: `$loadingC(string | string[])` Returns the total of all activie actions.
+- `$loadingC`: `$loadingC(string | string[ string | string [] ])` Returns the boolean of activie actions, if Receive a two-dimensional array ,the first dimension's relationship is `or` the second dimension's relationship is `and`.
 
 ### License
 
