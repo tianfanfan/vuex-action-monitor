@@ -1,5 +1,5 @@
 
-interface actionSubOption<S> {
+interface actionSubOption {
   log?: boolean;
   key?: string;
 }
@@ -19,7 +19,7 @@ function consoleLog(tag: 'success' | 'start', ...content: any[]) {
   console.log("%c" + tag, style, ...content)
 }
 
-function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
+function actionSubscribe(opt: actionSubOption = {}) {
   // sub key
   const _subKey = opt.key ? opt.key : 'loading'
   // 加了下划线在顶部的 sub key
@@ -99,7 +99,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
               })
             }
 
-            throw new Error('path must be a string or an array of string')
+            throw new Error('args must be a string or an array of string[]')
           }
         },
         // count 形式
@@ -114,6 +114,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
                 return state.c[key] || 0
               }).reduce((a, b) => a + b, 0)
             }
+            throw new Error('args must be a string or an array of string')
           }
         }
       }
