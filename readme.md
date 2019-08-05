@@ -15,7 +15,7 @@
 
 ### Introduction
 
-vuex-action-monitor is a library that monitor all vuex actions start and end.
+vuex-action-monitor is a library that monitor all vuex actions's start and end.
 
 ### Install
 
@@ -126,7 +126,7 @@ export default store
 Then you will have two getters function in any vue components
 
 - `$loadingC`: `$loadingC(string | string[])` Returns the total of all activie actions.
-- `$loadingC`: `$loadingC(string | string[ string | string [] ])` Returns the boolean of activie actions, if Receive a two-dimensional array ,the first dimension's relationship is `or` the second dimension's relationship is `and`.
+- `$loadingC`: `$loadingC(string | string[ string | string [] ])` Returns the boolean of activie actions, if receive a two-dimensional array ,the first dimension's relationship is `or` the second dimension's relationship is `and`.
 
 ### License
 
