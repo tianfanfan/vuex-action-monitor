@@ -108,7 +108,7 @@ export default store
       // 你也可以通过 getter 计算
       // you can use getter
       fooLoadingCount3() {
-        return this.$store.getters.['_loading/stateC']('foo')
+        return this.$store.getters.['loading/stateC']('foo')
       }
     }
   }
