@@ -22,8 +22,8 @@ function consoleLog(tag: 'success' | 'start', ...content: any[]) {
 function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
   // sub key
   const _subKey = opt.key ? opt.key : 'loading'
-  // 加了下划线在顶部的 sub key
-  const _lowSubKey = '_' + _subKey
+  // sub key in store
+  const slotSubKey = _subKey
   const needLog = opt.log ? true : false
 
   let closerStore = {}
@@ -32,7 +32,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
     // console.log(storeActionKeys);
     closerStore = store
 
-    store.registerModule([_lowSubKey], {
+    store.registerModule([slotSubKey], {
       namespaced: true,
       state: {
         // boolean
@@ -124,7 +124,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
      */
     store.subscribeAction({
       before: (action: any, state: any) => {
-        store.commit(`${_lowSubKey}/onActionDispatch`, {
+        store.commit(`${slotSubKey}/onActionDispatch`, {
           actionType: action.type,
           value: true
         })
@@ -133,7 +133,7 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
         }
       },
       after: (action: any, state: any) => {
-        store.commit(`${_lowSubKey}/onActionDispatch`, {
+        store.commit(`${slotSubKey}/onActionDispatch`, {
           actionType: action.type,
           value: false
         })
@@ -145,15 +145,15 @@ function actionSubscribe<S>(opt: actionSubOption<S> = {}) {
 
   }
   moduleResult.install = function (Vue: any) {
-    Object.defineProperty(Vue.prototype, `$loadingB`, {
+    Object.defineProperty(Vue.prototype, `$${slotSubKey}B`, {
       value: function (path: string): boolean {
-        return (closerStore as any).getters[`${_lowSubKey}/stateB`](path)
+        return (closerStore as any).getters[`${slotSubKey}/stateB`](path)
       }
     })
 
-    Object.defineProperty(Vue.prototype, `$loadingC`, {
+    Object.defineProperty(Vue.prototype, `$${slotSubKey}C`, {
       value: function (path: string): number {
-        return (closerStore as any).getters[`${_lowSubKey}/stateC`](path)
+        return (closerStore as any).getters[`${slotSubKey}/stateC`](path)
       }
     })
   }

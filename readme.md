@@ -103,7 +103,7 @@ export default store
       // 你也可以通过此方式拿到真实数据
       // you can use state
       fooLoadingCount2() {
-        return this.$store.state._loading.b.foo
+        return this.$store.state.loading.b.foo
       }
       // 你也可以通过 getter 计算
       // you can use getter
