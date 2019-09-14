@@ -1,8 +1,8 @@
-interface actionSubOption<S> {
+interface actionSubOption {
     log?: boolean;
     key?: string;
 }
-declare function actionSubscribe<S>(opt?: actionSubOption<S>): {
+declare function actionSubscribe(opt?: actionSubOption): {
     (store: any): void;
     install(Vue: any): void;
 };
