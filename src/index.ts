@@ -146,6 +146,8 @@ function actionSubscribe(opt: actionSubOption = {}) {
 
   }
   moduleResult.install = function (Vue: any) {
+    if(Vue._installed_vuex_action_monitor) return
+    Vue._installed_vuex_action_monitor = true
     const slotSubKeyB = `$${slotSubKey}B`
     if (!Vue.prototype[slotSubKeyB]) {
       Object.defineProperty(Vue.prototype, slotSubKeyB, {
