@@ -147,20 +147,26 @@ function actionSubscribe(opt: actionSubOption = {}) {
   }
   moduleResult.install = function (Vue: any) {
     const slotSubKeyB = `$${slotSubKey}B`
-    if (!Vue[slotSubKeyB]) {
+    if (!Vue.prototype[slotSubKeyB]) {
       Object.defineProperty(Vue.prototype, slotSubKeyB, {
         value: function (path: string): boolean {
           return (closerStore as any).getters[`${slotSubKey}/stateB`](path)
-        }
+        },
+        writable: true,
+        enumerable: true,
+        configurable: true
       })
     }
 
     const slotSubKeyC = `$${slotSubKey}C`
-    if(!Vue[slotSubKeyC]) {
+    if(!Vue.prototype[slotSubKeyC]) {
       Object.defineProperty(Vue.prototype, slotSubKeyC, {
         value: function (path: string): number {
           return (closerStore as any).getters[`${slotSubKey}/stateC`](path)
-        }
+        },
+        writable: true,
+        enumerable: true,
+        configurable: true
       })
     }
   }
