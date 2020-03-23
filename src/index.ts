@@ -146,7 +146,7 @@ function actionSubscribe(opt: actionSubOption = {}) {
 
   }
   moduleResult.install = function (Vue: any) {
-    if(Vue._installed_vuex_action_monitor) return
+    if (Vue._installed_vuex_action_monitor) return
     Vue._installed_vuex_action_monitor = true
     const slotSubKeyB = `$${slotSubKey}B`
     if (!Vue.prototype[slotSubKeyB]) {
@@ -161,7 +161,7 @@ function actionSubscribe(opt: actionSubOption = {}) {
     }
 
     const slotSubKeyC = `$${slotSubKey}C`
-    if(!Vue.prototype[slotSubKeyC]) {
+    if (!Vue.prototype[slotSubKeyC]) {
       Object.defineProperty(Vue.prototype, slotSubKeyC, {
         value: function (path: string): number {
           return (closerStore as any).getters[`${slotSubKey}/stateC`](path)
