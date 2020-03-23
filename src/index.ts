@@ -2,6 +2,7 @@
 interface actionSubOption {
   log?: boolean;
   key?: string;
+  logIgnore?: string[]
 }
 
 function consoleLog(tag: 'success' | 'start', ...content: any[]) {
@@ -25,6 +26,8 @@ function actionSubscribe(opt: actionSubOption = {}) {
   // sub key in store
   const slotSubKey = _subKey
   const needLog = opt.log ? true : false
+
+  const _logIgnore = opt.logIgnore ? opt.logIgnore : []
 
   let closerStore = {}
   const moduleResult = function (store: any) {
@@ -129,7 +132,7 @@ function actionSubscribe(opt: actionSubOption = {}) {
           actionType: action.type,
           value: true
         })
-        if (needLog) {
+        if (needLog && !_logIgnore.includes(action.type)) {
           consoleLog('start', `before action:  ${action.type}`)
         }
       },
@@ -138,7 +141,7 @@ function actionSubscribe(opt: actionSubOption = {}) {
           actionType: action.type,
           value: false
         })
-        if (needLog) {
+        if (needLog && !_logIgnore.includes(action.type)) {
           consoleLog('success', `after action:  ${action.type}`)
         }
       }

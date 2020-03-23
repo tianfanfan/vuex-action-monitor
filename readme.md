@@ -120,6 +120,7 @@ export default store
 
 - `log`(required: `false`, default: `false`): need console log the state or not.
 - `key` (required: `false`, default: `loading`): the key of this module in vuex store.
+- `logIgnore` (required: `false`, default: `[]`): the name of log ignore action.
 
 ### Feature
 
