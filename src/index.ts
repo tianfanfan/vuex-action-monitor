@@ -1,7 +1,6 @@
-
 interface actionSubOption {
-  log?: boolean;
-  key?: string;
+  log?: boolean
+  key?: string
   logIgnore?: string[]
 }
 
@@ -17,7 +16,7 @@ function consoleLog(tag: 'success' | 'start', ...content: any[]) {
     font-weight: bold;
     padding: 2px 0.5em;
   `
-  console.log("%c" + tag, style, ...content)
+  console.log('%c' + tag, style, ...content)
 }
 
 function actionSubscribe(opt: actionSubOption = {}) {
@@ -29,11 +28,11 @@ function actionSubscribe(opt: actionSubOption = {}) {
 
   const _logIgnore = opt.logIgnore ? opt.logIgnore : []
 
-  let closerStore = {}
-  const moduleResult = function (store: any) {
+  // let closerStore = {}
+  const moduleResult = function moduleResult(store: any) {
     // const storeActionKeys = Object.keys(store._actions)
     // console.log(storeActionKeys);
-    closerStore = store
+    // closerStore = store
 
     store.registerModule([slotSubKey], {
       namespaced: true,
@@ -44,12 +43,14 @@ function actionSubscribe(opt: actionSubOption = {}) {
         c: {}
       },
       mutations: {
-        onActionDispatch(state: any, { actionType, value }: { actionType: string, value: boolean }) {
-          function changeLoadingState(st: typeof state, { targetCount, actionType }: { targetCount: number, actionType: string }) {
-
-            let currentCount = targetCount >= 0 ? targetCount : 0;
-            (st.c as any)[actionType] = currentCount;
-            (st.b as any)[actionType] = currentCount > 0
+        onActionDispatch(state: any, { actionType, value }: { actionType: string; value: boolean }) {
+          function changeLoadingState(
+            st: typeof state,
+            { targetCount, actionType }: { targetCount: number; actionType: string }
+          ) {
+            let currentCount = targetCount >= 0 ? targetCount : 0
+            st.c[actionType] = currentCount
+            st.b[actionType] = currentCount > 0
           }
           /**
            * 初始化 action 的计数和状态
@@ -67,15 +68,15 @@ function actionSubscribe(opt: actionSubOption = {}) {
             // Vue.set(state.c, actionType, 0)
           }
 
-          let beforeCount = (<any>state.c)[actionType] || 0;
+          let beforeCount = (<any>state.c)[actionType] || 0
           if (value) {
             let targetCount = beforeCount + 1
             changeLoadingState(state, { targetCount, actionType })
           } else {
-            let targetCount = beforeCount - 1;
+            let targetCount = beforeCount - 1
             changeLoadingState(state, { targetCount, actionType })
           }
-        },
+        }
       },
       getters: {
         // boolean 形式
@@ -94,11 +95,12 @@ function actionSubscribe(opt: actionSubOption = {}) {
                   return state.b[key] || false
                 }
                 if (Array.isArray(key)) {
-                  return key.every((k) => {
-                    return state.b[k] || false
-                  }) || false
+                  return (
+                    key.every((k) => {
+                      return state.b[k] || false
+                    }) || false
+                  )
                 }
-
               })
             }
 
@@ -113,9 +115,11 @@ function actionSubscribe(opt: actionSubOption = {}) {
             }
 
             if (Array.isArray(path)) {
-              return path.map(key => {
-                return state.c[key] || 0
-              }).reduce((a, b) => a + b, 0)
+              return path
+                .map((key) => {
+                  return state.c[key] || 0
+                })
+                .reduce((a, b) => a + b, 0)
             }
             throw new Error('args must be a string or an array of string')
           }
@@ -146,15 +150,18 @@ function actionSubscribe(opt: actionSubOption = {}) {
         }
       }
     })
-
   }
   moduleResult.install = function (Vue: any) {
     if (Vue._installed_vuex_action_monitor) return
     Vue._installed_vuex_action_monitor = true
+    // loading data is mixin store data
+
     const slotSubKeyB = `$${slotSubKey}B`
+
     if (!Vue.prototype[slotSubKeyB]) {
       Object.defineProperty(Vue.prototype, slotSubKeyB, {
         value: function (path: string): boolean {
+          const closerStore = this.$store
           return (closerStore as any).getters[`${slotSubKey}/stateB`](path)
         },
         writable: true,
@@ -167,6 +174,7 @@ function actionSubscribe(opt: actionSubOption = {}) {
     if (!Vue.prototype[slotSubKeyC]) {
       Object.defineProperty(Vue.prototype, slotSubKeyC, {
         value: function (path: string): number {
+          const closerStore = this.$store
           return (closerStore as any).getters[`${slotSubKey}/stateC`](path)
         },
         writable: true,
