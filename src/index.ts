@@ -4,10 +4,11 @@ interface actionSubOption {
   logIgnore?: string[]
 }
 
-function consoleLog(tag: 'success' | 'start', ...content: any[]) {
+function consoleLog(tag: 'success' | 'start' | 'error', ...content: any[]) {
   const colorMap = {
     success: '#2ecc71',
-    start: '#00BCD4'
+    start: '#00BCD4',
+    error: '#ff4411'
   }
   const style = `
     background: ${colorMap[tag]};
@@ -147,6 +148,15 @@ function actionSubscribe(opt: actionSubOption = {}) {
         })
         if (needLog && !_logIgnore.includes(action.type)) {
           consoleLog('success', `after action:  ${action.type}`)
+        }
+      },
+      error: (action: any, state: any) => {
+        store.commit(`${slotSubKey}/onActionDispatch`, {
+          actionType: action.type,
+          value: false
+        })
+        if (needLog && !_logIgnore.includes(action.type)) {
+          consoleLog('error', `after action:  ${action.type}`)
         }
       }
     })
