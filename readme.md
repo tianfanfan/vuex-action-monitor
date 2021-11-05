@@ -35,7 +35,7 @@ import actionMonit from 'vuex-action-monitor'
 
 const actionMonitor = actionMonit({
   log: true,
-  key: 'loading',
+  key: 'loading'
 })
 Vue.use(Vuex)
 
@@ -58,8 +58,8 @@ const store = new Vuex.Store({
           resolve()
         }, 3000)
       })
-    },
-  },
+    }
+  }
 })
 
 export default store
@@ -70,18 +70,11 @@ export default store
 ```html
 <template>
   <div class="goodsPage">
-    <span>
-      {{ $loadingC(['foo', 'bar']) }}
-    </span>
+    <span> {{ $loadingC(['foo', 'bar']) }} </span>
 
-    <span>
-      {{ $loadingB(['foo', 'bar']) }}
-    </span>
+    <span> {{ $loadingB(['foo', 'bar']) }} </span>
 
-
-    <span>
-      {{ $loadingB([['foo', 'bar']]) }}
-    </span>
+    <span> {{ $loadingB([['foo', 'bar']]) }} </span>
 
     {{ $store.state.loading.b }} {{ $loadingB('foo') }} {{ $loadingC('foo') }}
   </div>
