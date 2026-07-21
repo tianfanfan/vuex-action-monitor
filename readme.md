@@ -1,31 +1,35 @@
 # vuex-action-monitor
 
-[![Build Status](https://travis-ci.com/tianfanfan/vuex-action-monitor.svg?branch=master)](https://travis-ci.com/tianfanfan/vuex-action-monitor)
 [![NPM Download](https://img.shields.io/npm/dm/vuex-action-monitor.svg)](https://www.npmjs.com/package/vuex-action-monitor)
 [![NPM Version](https://img.shields.io/npm/v/vuex-action-monitor.svg)](https://www.npmjs.com/package/vuex-action-monitor)
 [![NPM License](https://img.shields.io/npm/l/vuex-action-monitor.svg)](https://github.com/tianfanfan/vuex-action-monitor/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tianfanfan/vuex-action-monitor/pulls)
-[![Automated Release Notes by gren](https://img.shields.io/badge/%F0%9F%A4%96-release%20notes-00B2EE.svg)](https://github-tools.github.io/github-release-notes/)
 
 ### Table of Contents
 
-- [Feature](#Feature)
-- [Install](#Install)
+- [Introduction](#introduction)
+- [Install](#install)
+- [Usage](#usage)
+  - [In Store](#in-store)
+  - [In Component](#in-component)
+  - [TypeScript](#typescript)
+- [Options](#options)
+- [API](#api)
 - [License](#license)
 
 ### Introduction
 
-vuex-action-monitor is a library that monitor all vuex actions's start and end.
+vuex-action-monitor is a Vue 2 plugin that monitors all Vuex actions' start and end states, providing real-time loading indicators via getters and Vue prototype methods.
 
 ### Install
 
 ```sh
-  npm install -S vuex-action-monitor
+npm install -S vuex-action-monitor
 ```
 
-### Use in store
+### Usage
 
-Install and use in store.js:
+#### In Store
 
 ```javascript
 // store.js or store.ts
@@ -35,92 +39,153 @@ import actionMonit from 'vuex-action-monitor'
 
 const actionMonitor = actionMonit({
   log: true,
-  key: 'loading'
+  key: 'loading',
 })
-Vue.use(Vuex)
 
+Vue.use(Vuex)
 Vue.use(actionMonitor)
+
 const store = new Vuex.Store({
   plugins: [actionMonitor],
   state: {},
   mutations: {},
   actions: {
     async foo(context, payload) {
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve()
-        }, 3000)
+      await new Promise((resolve) => {
+        setTimeout(() => resolve(), 3000)
       })
     },
     async bar(context, payload) {
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve()
-        }, 3000)
+      await new Promise((resolve) => {
+        setTimeout(() => resolve(), 3000)
       })
-    }
-  }
+    },
+  },
 })
 
 export default store
 ```
 
-### Use in Component
+#### In Component
 
 ```html
 <template>
-  <div class="goodsPage">
+  <div class="page">
+    <!-- count: total active count for ['foo', 'bar'] -->
     <span> {{ $loadingC(['foo', 'bar']) }} </span>
 
+    <!-- boolean: true if any of ['foo', 'bar'] is loading -->
     <span> {{ $loadingB(['foo', 'bar']) }} </span>
 
+    <!-- boolean: true only if ALL of ['foo', 'bar'] are loading -->
     <span> {{ $loadingB([['foo', 'bar']]) }} </span>
 
-    {{ $store.state.loading.b }} {{ $loadingB('foo') }} {{ $loadingC('foo') }}
+    <!-- raw state access -->
+    {{ $store.state.loading.b }}
   </div>
 </template>
+
 <script>
-  export default {
-    data() {
-      return {}
+export default {
+  computed: {
+    fooLoadingCount() {
+      return this.$loadingC('foo')
     },
-    computed() {
-      // you can use methods
-      fooLoadingCount() {
-        return this.$loadingC("foo");
-      },
-      // you can use methods
-      loadingCBoolean() {
-        return this.$loadingB("foo");
-      },
-      // 你也可以通过此方式拿到真实数据
-      // you can use state
-      fooLoadingCount2() {
-        return this.$store.state.loading.b.foo
-      }
-      // 你也可以通过 getter 计算
-      // you can use getter
-      fooLoadingCount3() {
-        return this.$store.getters.['loading/stateC']('foo')
-      }
-    }
-  }
+    fooLoading() {
+      return this.$loadingB('foo')
+    },
+    // you can also use getters directly
+    fooLoadingCount2() {
+      return this.$store.getters['loading/stateC']('foo')
+    },
+  },
+}
 </script>
-<style scoped></style>
+```
+
+#### TypeScript
+
+Import the plugin and its types:
+
+```typescript
+import actionMonit, { type ActionSubOption } from 'vuex-action-monitor'
+
+const options: ActionSubOption = {
+  log: true,
+  key: 'loading',
+  logIgnore: ['noisyAction'],
+}
+
+const actionMonitor = actionMonit(options)
+```
+
+For TypeScript support in Vue components, add the type augmentation to your project's `*.d.ts` file:
+
+```typescript
+// If using the default key 'loading':
+import 'vuex-action-monitor/src/shims-vue'
+
+// If using a custom key (e.g. 'api'), declare your own:
+declare module 'vue/types/vue' {
+  interface Vue {
+    $apiB(path: string | string[]): boolean
+    $apiC(path: string | string[]): number
+  }
+}
+```
+
+Then in your components:
+
+```typescript
+export default {
+  computed: {
+    fooLoading(): boolean {
+      return this.$loadingB('foo')   // ✅ typed
+    },
+    totalActive(): number {
+      return this.$loadingC(['foo', 'bar'])  // ✅ typed
+    },
+  },
+}
 ```
 
 ### Options
 
-- `log`(required: `false`, default: `false`): need console log the state or not.
-- `key` (required: `false`, default: `loading`): the key of this module in vuex store.
-- `logIgnore` (required: `false`, default: `[]`): the name of log ignore action.
+| Option | Required | Default | Description |
+|--------|----------|---------|-------------|
+| `log` | no | `false` | Whether to console.log action dispatch events |
+| `key` | no | `'loading'` | The module key registered in vuex store |
+| `logIgnore` | no | `[]` | Action type names to exclude from logging |
 
-### Feature
+### API
 
-Then you will have two getters function in any vue components
+**`actionSubscribe(opt?: ActionSubOption): ActionSubscribeReturn`**
 
-- `$loadingC`: `$loadingC(string | string[])` Returns the total of all activie actions.
-- `$loadingB`: `$loadingB(string | string[ string | string [] ])` Returns the boolean of activie actions, if receive a two-dimensional array ,the first dimension's relationship is `or` the second dimension's relationship is `and`.
+Returns a plugin function with an `install` method for `Vue.use()`.
+
+**ActionSubOption**
+
+```typescript
+interface ActionSubOption {
+  log?: boolean       // enable console logging
+  key?: string        // module name in store (default: 'loading')
+  logIgnore?: string[] // action names to skip logging
+}
+```
+
+**Prototype Methods** (added to `Vue.prototype`)
+
+| Method | Signature | Description |
+|--------|-----------|-------------|
+| `$loadingB` | `(path: string \| string[]) => boolean` | Returns `true` if any given action is active. Nested arrays use AND logic |
+| `$loadingC` | `(path: string \| string[]) => number` | Returns the total count of all given active actions |
+
+**Getters** (registered under `store.getters['<key>/...']`)
+
+| Getter | Signature | Description |
+|--------|-----------|-------------|
+| `stateB` | `(path: string \| string[]) => boolean` | Boolean loading state (OR for flat array, AND for nested) |
+| `stateC` | `(path: string \| string[]) => number` | Sum of loading counts |
 
 ### License
 

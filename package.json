@@ -8,15 +8,31 @@
   },
   "description": "vuex action monitor",
   "main": "./lib/index.js",
+  "module": "./lib/index.mjs",
   "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
+    }
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "sideEffects": false,
   "scripts": {
     "v": "npm version v0.1.0",
     "patch": "npm version patch",
     "mi": "npm version minor",
     "ma": "npm version major",
-    "start": "tsc -w",
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run test && npm run build",
     "publish-first": "npm publish --access=public",
-    "build": "tsc",
     "publish-p": "npm run patch && npm run build",
     "publish-d": "npm publish"
   },
@@ -27,11 +43,17 @@
     "monitor"
   ],
   "license": "MIT",
+  "peerDependencies": {
+    "vuex": ">=3.0.0"
+  },
   "devDependencies": {
-    "tslint": "^6.1.3",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "^4.4.4",
-    "eslint": "^8.1.0"
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.56.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0",
+    "vuex": "^3.6.2"
   },
   "dependencies": {}
 }
