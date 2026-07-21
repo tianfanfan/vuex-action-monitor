@@ -32,9 +32,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "prepublishOnly": "npm run test && npm run build",
-    "publish-first": "npm publish --access=public",
+    "publish-first": "npm publish --access=public --registry=https://registry.npmjs.org/",
     "publish-p": "npm run patch && npm run build",
-    "publish-d": "npm publish"
+    "publish-d": "npm publish --registry=https://registry.npmjs.org/"
   },
   "keywords": [
     "vuex",
